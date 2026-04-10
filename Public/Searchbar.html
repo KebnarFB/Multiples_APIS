@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa</title>
+  <link rel="stylesheet" href="/Main.css">
+  <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSp_--dRRWutJpMB7xA7KzR--RVCdeb4dmGCA&s" />
+  <link rel="icon" type="image/png" href="../../Frontend/Images/LogoPage.jpg" />
+</head>
+
+<body class="design">
+
+  <div class="content">
+
+    <div class="menu-container">
+      <div class="menu-fields">
+        <button class="btn" onclick="window.location.href='/Index.html'">Inicio</button>
+        <button class="btn"
+          style="background: #cdb8ae; color: #2D3748; cursor: default; box-shadow: 0 0 15px rgba(255, 245, 240, 0.3);">Busqueda</button>
+        <button class="btn" onclick="window.location.href='/Products.html'">Productos</button>
+        <button class="btn" onclick="window.location.href='/More.html'">Acerca de</button>
+      </div>
+    </div>
+
+    <!-- Contenedor del mapa -->
+    <div id="map"
+      style="height:500px; width:100%; margin-top:20px; border-radius:10px; box-shadow:0 5px 20px rgba(0,0,0,0.2);">
+    </div>
+
+  </div>
+
+  <!-- Script de Google Maps con Places -->
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAougeXVtzGbUq_791xUbVu-Sxj2wnCTFs&libraries=places&callback=initMap">
+    </script>
+
+  <script>
+    let map;
+
+    function initMap() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          const userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+
+          // Crear mapa centrado en la ubicación del usuario
+          map = new google.maps.Map(document.getElementById("map"), {
+            center: userLocation,
+            zoom: 14
+          });
+
+          // Marcador de tu ubicación
+          new google.maps.Marker({
+            position: userLocation,
+            map,
+            title: "Tu ubicación"
+          });
+
+          // Buscar lugares cercanos (ejemplo: restaurantes)
+          const service = new google.maps.places.PlacesService(map);
+          service.nearbySearch(
+            {
+              location: userLocation,
+              radius: 1000, // radio en metros
+              type: ["restaurant"] // puedes cambiar a "store", "hospital", "park", etc.
+            },
+            (results, status) => {
+              if (status === google.maps.places.PlacesServiceStatus.OK) {
+                results.forEach(place => {
+                  new google.maps.Marker({
+                    position: place.geometry.location,
+                    map,
+                    title: place.name
+                  });
+                });
+              }
+            }
+          );
+        },
+          error => {
+            alert("No se pudo obtener tu ubicación.");
+          });
+      } else {
+        alert("Tu navegador no soporta geolocalización.");
+      }
+    }
+  </script>
+
+</body>
+
+</html>

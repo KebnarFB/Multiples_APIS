@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3200/3200751.png" />
+    <link rel="stylesheet" href="/Login.css">
+</head>
+
+<body>
+
+    <main class="signup-container">
+        <div class="signup-header ">
+            <h1>Inicio de sesion</h1>
+        </div>
+
+        <form id="loginForm" class="form-content">
+            <div class="input-group">
+                <label for="usuario">Ingrese su usuario</label>
+                <input id="usuario" class="inputs" type="text" placeholder="Usuario" required>
+
+                <label for="pwd">Contraseña</label>
+                <input id="pwd" class="inputs" type="password" placeholder="Contraseña" required>
+            </div>
+
+            <button class="botones crear" type="submit">
+                Ingresar
+            </button>
+
+            <p class="login-link">
+                No tienes cuenta?,
+                <a href="/signup.html" class="links">pulsa aqui para crear una</a>
+            </p>
+        </form>
+    </main>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const usuario = document.getElementById("usuario").value;
+    const pwd = document.getElementById("pwd").value;
+
+    const res = await fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ usuario, pwd })
+    });
+
+    const text = await res.text();
+
+    if (text === "Login correcto") {
+        window.location.href = "/Index.html";
+    } else {
+        alert(text);
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crear cuenta</title>
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3200/3200751.png" />
+  <link rel="stylesheet" href="/Login.css">
+</head>
+
+<body>
+  <div class="signup-container">
+    <div class="signup-header">
+      <h1>Creación de Cuenta</h1>
+      <p>Regístrate para comenzar a seleccionar vuelos.</p>
+    </div>
+
+    <form id="registerForm" class="form-content">
+      <div class="input-group">
+        <label for="nombres">Nombres</label>
+        <input id="nombres" class="inputs" type="text" placeholder="Tus nombres" required />
+
+        <label for="username">Nombre de usuario</label>
+        <input id="username" class="inputs" type="text" placeholder="Usa tu creatividad" required />
+
+        <label for="correo">Correo Electrónico</label>
+        <input id="correo" class="inputs" type="email" placeholder="x@dominio.com" required />
+
+        <label for="clave">Contraseña</label>
+        <input id="clave" class="inputs" type="password" placeholder="No olvidar" required />
+
+        <label for="confirmar_clave">Confirmar Contraseña</label>
+        <input id="confirmar_clave" class="inputs" type="password" placeholder="Confirmar" required />
+      </div>
+
+      <button class="botones crear" type="submit">Crear cuenta</button>
+
+      <p class="login-link">
+        ¿Ya tienes cuenta? <a href="/Login.html" class="links">Inicia sesión</a>
+      </p>
+    </form>
+  </div>
+
+<script>
+document.getElementById("registerForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const nombres = document.getElementById("nombres").value;
+  const username = document.getElementById("username").value;
+  const correo = document.getElementById("correo").value;
+  const pwd = document.getElementById("clave").value;
+  const confirmar = document.getElementById("confirmar_clave").value;
+
+  if (pwd !== confirmar) {
+    alert("Las contraseñas no coinciden");
+    return;
+  }
+
+  const res = await fetch('/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      nombres: nombres,
+      username: username,
+      correo: correo,
+      pwd: pwd
+    })
+  });
+
+  const text = await res.text();
+  alert(text);
+});
+</script>
+
+</body>
+</html>

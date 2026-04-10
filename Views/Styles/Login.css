@@ -1,0 +1,121 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #2D3748;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup-container {
+  width: 100%;
+  max-width: 460px;
+  background: #333d4d;
+  padding: 35px;
+  border-radius: 22px;
+  border: 1px solid #4a5568;
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4);
+}
+
+.signup-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.signup-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #FFD8BE;
+  margin-bottom: 8px;
+}
+
+.signup-header p {
+  font-size: 14px;
+  color: #A0AEC0;
+}
+
+.form-content {
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group label {
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #FFD8BE;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.inputs {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: #242b38;
+  font-size: 14px;
+  color: #EDF2F7;
+  transition: all 0.3s ease;
+}
+
+.inputs::placeholder {
+  color: #64748B;
+}
+
+.inputs:focus {
+  outline: none;
+  background: #242b38;
+  border-color: #FFD8BE;
+  box-shadow: 0 0 0 3px rgba(255, 216, 190, 0.1);
+}
+
+.botones.crear {
+  width: 100%;
+  margin-top: 25px;
+  padding: 15px;
+  background: #FFD8BE;
+  color: #2D3748;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.botones.crear:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(255, 216, 190, 0.2);
+  background: #fbcbb0;
+}
+
+.login-link {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 14px;
+  color: #A0AEC0;
+}
+
+.links {
+  color: #FFD8BE;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.links:hover {
+  text-decoration: underline;
+}

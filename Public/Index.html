@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clima</title>
+  <link rel="stylesheet" href="/Main.css">
+  <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR39RVQBdUCc6aA7NFSYNM9vC8m8Fd3wxAqQ&s" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="design">
+
+  <div class="content">
+    <div class="menu-container">
+      <div class="menu-fields">
+        <button id="btnInicio" class="btn"
+          style="background: #FFF5F0; color: #2D3748; cursor: default; box-shadow: 0 0 15px rgba(255, 245, 240, 0.3);">
+          Inicio
+        </button>
+        <button id="btnBusqueda" class="btn" onclick="window.location.href='/Searchbar.html'">Busqueda</button>
+        <button id="btnProductos" class="btn" onclick="window.location.href='/Products.html'">Productos</button>
+        <button id="btnAcerca" class="btn" onclick="window.location.href='/More.html'">Acerca de</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="clima">
+    <p>Cargando pronóstico diario...</p>
+  </div>
+
+  <script>
+    function obtenerClima(lat, lon) {
+      const url = `/api/clima?lat=${lat}&lon=${lon}`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data.list && data.list.length > 0) {
+            let html = "<h3>Pronóstico Diario</h3>";
+
+            // Objeto para rastrear días ya procesados
+            const diasProcesados = {};
+            let contadorDias = 0;
+
+            data.list.forEach(item => {
+              const dateObj = new Date(item.dt * 1000);
+              const fechaID = dateObj.toLocaleDateString(); // Ejemplo: "9/4/2026"
+
+              // Si el día no ha sido agregado y queremos máximo 5 días
+              if (!diasProcesados[fechaID] && contadorDias < 5) {
+                diasProcesados[fechaID] = true;
+                contadorDias++;
+
+                const fechaLarga = dateObj.toLocaleDateString("es-MX", {
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long'
+                });
+
+                html += `
+                  <div class="clima-entry">
+                    <div style="text-align: left;">
+                      <p class="clima-fecha">${fechaLarga}</p>
+                      <p style="text-transform: capitalize; font-size: 14px; color: #EDF2F7;">${item.weather[0].description}</p>
+                    </div>
+                    <div class="clima-temp">${Math.round(item.main.temp)}°C</div>
+                  </div>
+                `;
+              }
+            });
+
+            document.getElementById("clima").innerHTML = html;
+          } else {
+            document.getElementById("clima").innerHTML = `<p>Error: Datos no disponibles</p>`;
+          }
+        })
+        .catch(error => {
+          document.getElementById("clima").innerHTML = "<p>Error de conexión.</p>";
+        });
+    }
+
+    function solicitarUbicacion() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          p => obtenerClima(p.coords.latitude, p.coords.longitude),
+          e => document.getElementById("clima").innerHTML = "<p>Ubicación denegada.</p>"
+        );
+      }
+    }
+
+    window.onload = solicitarUbicacion;
+  </script>
+
+</body>
+
+</html>
